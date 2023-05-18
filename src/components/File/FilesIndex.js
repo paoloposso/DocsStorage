@@ -2,7 +2,7 @@ import React from 'react'
 import FilesList from './FilesList'
 import { useState } from 'react';
 
-const FilesHome = () => {
+const FilesIndex = () => {
   const [files, setFiles] = useState([
     { id: 1, name: 'File 1', description: 'Description for File 1' },
     { id: 2, name: 'File 2', description: 'Description for File 2' },
@@ -24,4 +24,4 @@ const FilesHome = () => {
   )
 }
 
-export default FilesHome
+export default FilesIndex
