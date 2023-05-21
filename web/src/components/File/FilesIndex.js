@@ -18,9 +18,7 @@ const FilesIndex = () => {
   }
 
   return (
-    <div>
-      <FilesList files={files} onDeleteFile={deleteFile} />
-    </div>
+    <FilesList files={files} onDeleteFile={deleteFile} />
   )
 }
 
