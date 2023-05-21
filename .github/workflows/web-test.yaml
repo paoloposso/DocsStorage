@@ -20,9 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./web
 
       - name: Run tests
         run: npm test
+        working-directory: ./web
 
       - name: Check test status and prevent PR merge on failure
         run: |
