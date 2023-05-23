@@ -1,6 +1,7 @@
 import React from 'react'
 import FilesList from './FilesList'
 import { useState } from 'react';
+import AddFile from './AddFile';
 
 const FilesIndex = () => {
   const [files, setFiles] = useState([
@@ -10,6 +11,8 @@ const FilesIndex = () => {
   ]);
 
   const addFile = (file) => {
+    const id = Math.floor(Math.random() * 100000) + 1;
+    file.id = id;
     setFiles([...files, file]);
   }
 
@@ -18,7 +21,11 @@ const FilesIndex = () => {
   }
 
   return (
-    <FilesList files={files} onDeleteFile={deleteFile} />
+    <>
+      <AddFile onAddFile={addFile} />
+      <br />
+      <FilesList files={files} onDeleteFile={deleteFile} />
+    </>
   )
 }
 

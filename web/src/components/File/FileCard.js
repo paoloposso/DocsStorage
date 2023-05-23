@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaTimes } from 'react-icons/fa'
 
-const File = ({file, onDeleteFile}) => {
+const FileCard = ({file, onDeleteFile}) => {
   return (
     <div className="file-card" key={file.id}>
         <h3>
@@ -13,4 +13,4 @@ const File = ({file, onDeleteFile}) => {
   )
 }
 
-export default File
+export default FileCard

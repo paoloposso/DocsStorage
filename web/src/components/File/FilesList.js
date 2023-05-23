@@ -1,17 +1,18 @@
-import File from "./File";
+import FileCard from "./FileCard";
+import { Container } from "react-bootstrap";
   
 const FilesList = ({files, onDeleteFile}) => {
   return (
-    <div>
-        <h2>File List</h2>
+    <Container>
+        <h2>Files List</h2>
         <div>
             {
               files.map((file) => (
-                <File key={file.id} file={file} onDeleteFile={onDeleteFile}></File>
+                <FileCard key={file.id} file={file} onDeleteFile={onDeleteFile}></FileCard>
               ))
             }
         </div>                
-    </div>
+    </Container>
   );
 };
 
