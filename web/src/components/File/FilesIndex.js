@@ -14,7 +14,7 @@ const FilesIndex = () => {
   }
 
   const deleteFile = (id) => {
-    setFiles(files.map(f => f.id !== id));
+    setFiles(files.filter(f => f.id !== id));
   }
 
   return (
