@@ -24,7 +24,7 @@ const AddFile = ({ onAddFile }) => {
         <Container>
             <h2>Add File</h2>
             <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="fileName">
+                <Form.Group className="mb-2" controlId="fileName">
                     <Form.Label>File Name</Form.Label>
                     <Form.Control type="text" placeholder="Enter file name" value={file.name} onChange={handleNameChange} />
                 </Form.Group>
@@ -32,7 +32,12 @@ const AddFile = ({ onAddFile }) => {
                     <Form.Label>File Description</Form.Label>
                     <Form.Control type="text" placeholder="Enter file description" value={file.description} onChange={handleDescriptionChange} />
                 </Form.Group>
-                <Button variant="primary" type="submit">Add</Button>
+                <Form.Group className="mb-3" controlId="buttons">
+                    <div className="d-grid gap-2">
+                        <Button variant="primary" type="submit" size="lg">Save</Button>
+                        <Button variant="secondary" type="button" size="lg" onClick={() => alert('test')}>Cancel</Button>
+                    </div>
+                </Form.Group>
             </Form>
         </Container>
     )
