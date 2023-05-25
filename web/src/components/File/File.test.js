@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { FaTimes } from 'react-icons/fa';
-import File from './File';
+import FileCard from './FileCard';
 
 describe('File component', () => {
   const mockFile = {
@@ -13,7 +13,7 @@ describe('File component', () => {
   const mockDeleteFile = jest.fn();
 
   beforeEach(() => {
-    render(<File file={mockFile} onDeleteFile={mockDeleteFile} />);
+    render(<FileCard file={mockFile} onDeleteFile={mockDeleteFile} />);
   });
 
   test('renders file name and description', () => {
