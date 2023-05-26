@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import CustomAlert from "../Common/Alert/CustomAlert";
 
 const AddFile = ({ onAddFile }) => {
+    const [operationResult, setOperationResult] = 
+        useState({type: '', text: '', show: false});
+
     const [file, setFile] = 
         useState({ name: '', description: '' });
 
@@ -9,11 +13,11 @@ const AddFile = ({ onAddFile }) => {
         e.preventDefault();
         onAddFile({ name: file.name, description: file.description });
 
-        alert(file);
+        setOperationResult({type: 'success', text: 'File added successfully', show: true});
     }
 
     const handleNameChange = (e) => {
-      setFile({ ...file, name: e.target.value });  
+        setFile({ ...file, name: e.target.value });  
     };
 
     const handleDescriptionChange = (e) => {
@@ -38,6 +42,7 @@ const AddFile = ({ onAddFile }) => {
                         <Button variant="secondary" type="button" size="lg" onClick={() => alert('test')}>Cancel</Button>
                     </div>
                 </Form.Group>
+                <CustomAlert type={operationResult.type} text={operationResult.text} isShow={operationResult.show} />
             </Form>
         </Container>
     )
