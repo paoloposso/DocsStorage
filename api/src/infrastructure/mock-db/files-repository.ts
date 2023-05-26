@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { FileMetadata } from "src/files/file-metadata";
-import { FilesRepository as AbstractFilesRepository } from "src/files/files.repository";
+import { FileMetadata } from "src/files/interface/file-metadata.interface";
+import { IFilesRepository } from "src/files/files.repository";
 
 @Injectable()
-export class FilesRepository implements AbstractFilesRepository {
+export class FilesRepository implements IFilesRepository {
     getFilesList(): Promise<FileMetadata[]> {
         return Promise.resolve([
             {

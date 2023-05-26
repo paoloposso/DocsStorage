@@ -1,6 +1,6 @@
-import { FileMetadata } from "./file-metadata";
+import { FileMetadata } from "./interface/file-metadata.interface";
 
-export abstract class FilesRepository {
+export abstract class IFilesRepository {
     abstract getFilesList(): Promise<FileMetadata[]>;
     abstract getFileById(id: string): Promise<FileMetadata>;
     abstract createFile(file: FileMetadata): Promise<string>;

@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { FilesService } from './files.service';
-import { FileMetadata } from './file-metadata';
+import { FileMetadata } from './interface/file-metadata.interface';
 
 @Controller('files')
 export class FilesController {

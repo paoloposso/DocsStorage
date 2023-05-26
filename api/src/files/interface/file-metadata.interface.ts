@@ -1,4 +1,4 @@
-export class FileMetadata {
+export interface FileMetadata {
     id: string;
     name: string;
     description: string;
