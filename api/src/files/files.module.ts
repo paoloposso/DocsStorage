@@ -3,7 +3,7 @@ import { FilesController } from './files.controller';
 import { FilesService } from './files.service';
 import { MockDbModule } from '../infrastructure/mock-db/mock-db.module';
 import { IFilesRepository } from './files.repository';
-import { MockFilesRepository } from 'src/infrastructure/mock-db/files-repository';
+import { MockFilesRepository } from 'src/files/tests/mock-files-repository';
 
 @Module({
     controllers: [FilesController],

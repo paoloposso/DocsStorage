@@ -1,5 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Role } from './role';
+import { Role } from './role.enum';
 
 export type UserDocument = UserDbSchema & Document;
 
@@ -12,7 +12,10 @@ export class UserDbSchema {
     email: string;
 
     @Prop()
-    password: string;
+    passwordHash: string;
+
+    @Prop()
+    passwordSalt: string;
 
     @Prop()
     role: Role;

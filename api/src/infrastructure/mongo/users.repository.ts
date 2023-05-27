@@ -3,14 +3,21 @@ import { UserDbSchema, UserDocument } from "./users.schema";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { User } from "../../users/interfaces/user.interface";
+import { IUsersRepository } from "src/users/users.repository";
 
 @Injectable()
-export class UsersRepository {
+export class UsersRepository implements IUsersRepository {
     constructor(
         @InjectModel(UserDbSchema.name) private userModel: Model<UserDocument>) {}
 
-    async create(user: UserDbSchema): Promise<string> {
-        const createdUser = new this.userModel(user);
+    async create(user: User, salt: string): Promise<string> {
+        const createdUser = new this.userModel({
+            email: user.email,
+            passwordHash: user.password,
+            passwordSalt: salt,
+            role: user.role,
+        });
+
         let saved = await createdUser.save();
 
         return saved._id.toString();
@@ -28,7 +35,7 @@ export class UsersRepository {
         return {
             id: user._id.toString(),
             email: user.email,
-            password: user.password,
+            password: '',
             role: user.role,
         };
     }

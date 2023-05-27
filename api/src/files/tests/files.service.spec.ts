@@ -1,15 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FilesService } from '../files.service';
-import { MockDbModule } from '../../infrastructure/mock-db/mock-db.module';
 import { IFilesRepository } from '../files.repository';
-import { MockFilesRepository } from '../../infrastructure/mock-db/files-repository';
+import { MockFilesRepository } from './mock-files-repository';
 
 describe('FilesService', () => {
   let service: FilesService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [MockDbModule],
+      imports: [],
       controllers: [],
       providers: [FilesService, 
         {provide: IFilesRepository, useClass: MockFilesRepository}

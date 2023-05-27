@@ -1,4 +1,4 @@
-import { Role } from "../../infrastructure/mongo/role";
+import { Role } from "../../infrastructure/mongo/role.enum";
 
 export interface User {
     id: string;

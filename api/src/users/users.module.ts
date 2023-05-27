@@ -6,11 +6,14 @@ import { UsersRepository } from '../infrastructure/mongo/users.repository';
 import { UsersService } from './users.service';
 import { MockDbModule } from '../infrastructure/mock-db/mock-db.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthService, IAuthService } from './auth.service';
 
 @Module({
     controllers: [UsersController],
     providers: [UsersService, 
-        {provide: IUsersRepository, useClass: UsersRepository}],
+        {provide: IUsersRepository, useClass: UsersRepository},
+        {provide: IAuthService, useClass: AuthService}
+    ],
     exports: [UsersService],
     imports: [MockDbModule, 
         MongooseModule.forFeature([{ name: UserDbSchema.name, schema: UserSchema }])

@@ -4,8 +4,11 @@ import { IUsersRepository } from "src/users/users.repository";
 
 @Injectable()
 export class MockUsersRepository implements IUsersRepository {
-    async create(user: any): Promise<string> {
-        return "1234";
+    async create(user: User, hashSalt: string): Promise<string> {
+        if (user.email === "test@gmail.com") {
+            return "1234";
+        }
+        throw new Error("InvalidParameters");
     }
 
     async findByEmail(email: string): Promise<User | undefined> {
