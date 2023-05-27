@@ -14,7 +14,7 @@ import { AuthService, IAuthService } from './auth.service';
         {provide: IAuthService, useClass: AuthService},
         {provide: IUsersService, useClass: UsersService},
     ],
-    exports: [UsersService, AuthService],
+    exports: [],
     imports: [MongooseModule.forFeature([{ name: UserDbSchema.name, schema: UserSchema }])
     ]
 })

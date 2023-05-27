@@ -6,7 +6,9 @@ import { IAuthService } from './auth.service';
 
 @Controller('users')
 export class UsersController {
-    constructor(private readonly userService: IUsersService, private readonly authService: IAuthService) {}
+    constructor(
+        private readonly userService: IUsersService, 
+        private readonly authService: IAuthService) {}
 
     @Get()
     @ApiNotFoundResponse({ description: 'User not found' })

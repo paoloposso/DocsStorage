@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import { IUsersRepository } from './users.repository';
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 export abstract class IAuthService {
     abstract hashPassword(password: string): Promise<[string, string]>;
@@ -8,7 +8,8 @@ export abstract class IAuthService {
         { email, plainTextPassword }: { email: string; plainTextPassword: string; }): Promise<string>;
 }
 
-export class AuthService 
+@Injectable()
+export class AuthService implements IAuthService
 {
     constructor(private repository: IUsersRepository) {}
 
