@@ -1,4 +1,4 @@
-import { FileMetadata } from "./interface/file-metadata.interface";
+import { FileMetadata } from "./interfaces/file-metadata.interface";
 
 export abstract class IFilesRepository {
     abstract getFilesList(): Promise<FileMetadata[]>;

@@ -7,6 +7,4 @@ import { FilesRepository } from './files-repository';
     providers: [FilesRepository],
     exports: [FilesRepository]
 })
-export class MockDbModule {
-    
-}
+export class MockDbModule {}

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IFilesRepository } from './files.repository';
-import { FileMetadata } from './interface/file-metadata.interface';
+import { FileMetadata } from './interfaces/file-metadata.interface';
 
 @Injectable()
 export class FilesService {
