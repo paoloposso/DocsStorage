@@ -16,7 +16,7 @@ export class UsersRepository {
         return saved._id.toString();
     }
 
-    async findByEmail(email: string): Promise<UserDbSchema | undefined> {
+    async findByEmail(email: string): Promise<User | undefined> {
         const user = await this.userModel
                     .findOne({ email: email })
                     .exec();

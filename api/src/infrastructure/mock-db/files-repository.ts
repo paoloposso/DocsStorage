@@ -3,7 +3,7 @@ import { FileMetadata } from "src/files/interfaces/file-metadata.interface";
 import { IFilesRepository } from "src/files/files.repository";
 
 @Injectable()
-export class FilesRepository implements IFilesRepository {
+export class MockFilesRepository implements IFilesRepository {
     getFilesList(): Promise<FileMetadata[]> {
         return Promise.resolve([
             {

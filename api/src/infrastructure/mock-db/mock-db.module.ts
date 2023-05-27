@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { FilesRepository } from './files-repository';
+import { MockFilesRepository } from './files-repository';
 
 @Module({
     imports: [],
     controllers: [],
-    providers: [FilesRepository],
-    exports: [FilesRepository]
+    providers: [MockFilesRepository],
+    exports: [MockFilesRepository]
 })
 export class MockDbModule {}

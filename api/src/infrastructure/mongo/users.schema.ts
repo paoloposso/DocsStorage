@@ -12,7 +12,7 @@ export class UserDbSchema {
     email: string;
 
     @Prop()
-    password: number;
+    password: string;
 
     @Prop()
     role: Role;

@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FilesController } from './files.controller';
-import { FilesService } from './files.service';
-import { IFilesRepository } from './files.repository';
-import { FilesRepository } from '../infrastructure/mock-db/files-repository';
-import { MockDbModule } from '../infrastructure/mock-db/mock-db.module';
+import { FilesController } from '../files.controller';
+import { FilesService } from '../files.service';
+import { IFilesRepository } from '../files.repository';
+import { MockFilesRepository } from '../../infrastructure/mock-db/files-repository';
+import { MockDbModule } from '../../infrastructure/mock-db/mock-db.module';
 
 describe('FilesController', () => {
   let controller: FilesController;
@@ -13,7 +13,7 @@ describe('FilesController', () => {
       imports: [MockDbModule],
       controllers: [FilesController],
       providers: [FilesService, 
-        {provide: IFilesRepository, useClass: FilesRepository}
+        {provide: IFilesRepository, useClass: MockFilesRepository}
       ],
       exports: []
     }).compile();
