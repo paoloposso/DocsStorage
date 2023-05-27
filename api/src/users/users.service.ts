@@ -3,8 +3,13 @@ import { IUsersRepository } from './users.repository';
 import { User } from './interfaces/user.interface';
 import { AuthService, IAuthService } from './auth.service';
 
+export abstract class IUsersService {
+    abstract create(user: User): Promise<string>;
+    abstract findByEmail(email: string): Promise<User>;
+}
+
 @Injectable()
-export class UsersService {
+export class UsersService implements IUsersService {
     constructor(
         private repository: IUsersRepository, 
         private authService: IAuthService) {}

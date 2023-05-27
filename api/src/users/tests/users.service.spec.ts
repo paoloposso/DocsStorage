@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from '../users.service';
+import { IUsersService, UsersService } from '../users.service';
 import { IUsersRepository } from '../users.repository';
 import { AuthService, IAuthService } from '../auth.service';
 import { MockUsersRepository } from './mock-users-repository';
