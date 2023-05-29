@@ -8,7 +8,7 @@ export class UserDbSchema {
     @Prop()
     id: string;
 
-    @Prop()
+    @Prop({ unique: true })
     email: string;
 
     @Prop()

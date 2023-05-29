@@ -9,7 +9,7 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     FilesModule, 
-    MongooseModule.forRoot('mongodb://localhost:27017/docs'), 
+    MongooseModule.forRoot(process.env.MONGO_URI), 
     UsersModule, 
     MongoModule
   ],

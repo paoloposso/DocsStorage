@@ -6,6 +6,7 @@ import { UsersRepository } from '../infrastructure/mongo/users.repository';
 import { IUsersService, UsersService } from './users.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthService, IAuthService } from './auth.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
     controllers: [UsersController],
@@ -15,7 +16,13 @@ import { AuthService, IAuthService } from './auth.service';
         {provide: IUsersService, useClass: UsersService},
     ],
     exports: [],
-    imports: [MongooseModule.forFeature([{ name: UserDbSchema.name, schema: UserSchema }])
+    imports: [
+        MongooseModule.forFeature(
+            [{ name: UserDbSchema.name, schema: UserSchema }]
+        ),
+        JwtModule.register({
+            secret: process.env.JWT_SECRET ?? 'secret1234test'
+        })
     ]
 })
 export class UsersModule {}

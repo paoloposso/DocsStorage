@@ -24,7 +24,11 @@ export class UsersController {
 
     @Post()
     public createUser(@Body() userDto: User): Promise<string> {
-        return this.userService.create(userDto);
+        try {
+            return this.userService.create(userDto);
+        } catch (err) {
+            throw new Error(err);
+        }
     }
 
     @Post('authenticate')

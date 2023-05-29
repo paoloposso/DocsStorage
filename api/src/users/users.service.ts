@@ -16,9 +16,7 @@ export class UsersService implements IUsersService {
 
     async create(user: User): Promise<string> {
         let [salt, hashedPassword] = await this.authService.hashPassword(user.password);
-
         user.password = hashedPassword;
-
         return await this.repository.create(user, salt);
     }
 
