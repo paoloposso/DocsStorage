@@ -5,7 +5,7 @@ import { ApiNotFoundResponse } from '@nestjs/swagger';
 import { IAuthService } from './auth.service';
 import { JwtAuthGuard } from 'src/application/guards/jwt-auth-guard';
 import { Role } from 'src/domain/users/role.enum';
-import { Roles } from 'src/application/guards/roles-decorator';
+import { Roles } from 'src/domain/cross-cutting/roles-decorator';
 
 @Controller('users')
 export class UsersController {
