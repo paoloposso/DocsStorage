@@ -1,8 +1,10 @@
-import { Body, Controller, Get, NotFoundException, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Post, Query, UseGuards } from '@nestjs/common';
 import { User } from './interfaces/user.interface';
 import { IUsersService } from './users.service';
 import { ApiNotFoundResponse } from '@nestjs/swagger';
 import { IAuthService } from './auth.service';
+import { JwtAuthGuard } from 'src/application/guards/jwt-auth-guard';
+import { Role } from 'src/infrastructure/mongo/role.enum';
 
 @Controller('users')
 export class UsersController {
@@ -23,6 +25,7 @@ export class UsersController {
     }
 
     @Post()
+    @UseGuards(JwtAuthGuard)
     createUser(@Body() userDto: User): Promise<any> {
         return this.userService.create(userDto);
     }
