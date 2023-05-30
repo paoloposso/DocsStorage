@@ -4,13 +4,19 @@ import { IUsersRepository } from '../users.repository';
 import { AuthService, IAuthService } from '../auth.service';
 import { MockUsersRepository } from './mock-users-repository';
 import { User } from '../interfaces/user.interface';
+import { JwtModule } from '@nestjs/jwt';
 
 describe('UsersService', () => {
     let service: UsersService;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            imports: [],
+            imports: [
+                JwtModule.register({
+                    secret: process.env.JWT_SECRET, 
+                    signOptions: { expiresIn: '60m' }
+                  }),
+            ],
             controllers: [],
             providers: [UsersService,
                 {provide: IUsersRepository, useClass: MockUsersRepository},
