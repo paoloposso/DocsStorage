@@ -4,7 +4,8 @@ import { IUsersService } from './users.service';
 import { ApiNotFoundResponse } from '@nestjs/swagger';
 import { IAuthService } from './auth.service';
 import { JwtAuthGuard } from 'src/application/guards/jwt-auth-guard';
-import { Role } from 'src/infrastructure/mongo/role.enum';
+import { Role } from 'src/domain/users/role.enum';
+import { Roles } from 'src/application/guards/roles-decorator';
 
 @Controller('users')
 export class UsersController {
@@ -16,16 +17,15 @@ export class UsersController {
     @ApiNotFoundResponse({ description: 'User not found' })
     async getUserByEmail(@Query('email') email: string): Promise<User> {
         var result = await this.userService.findByEmail(email);
-
         if (!result) {
             throw new NotFoundException();
         }
-
         return result;
     }
 
     @Post()
     @UseGuards(JwtAuthGuard)
+    @Roles(Role.ADMIN)
     createUser(@Body() userDto: User): Promise<any> {
         return this.userService.create(userDto);
     }
