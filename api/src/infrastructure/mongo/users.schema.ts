@@ -13,10 +13,7 @@ export class UserDbSchema {
 
     @Prop()
     passwordHash: string;
-
-    @Prop()
-    passwordSalt: string;
-
+    
     @Prop()
     role: Role;
 }

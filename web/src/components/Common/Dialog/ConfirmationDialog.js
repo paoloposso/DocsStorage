@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
-function ConfirmationDialog({ show, onConfirm, onCancel, title, message }) {
+const ConfirmationDialog = ({ show, onConfirm, onCancel, title, message }) => {
   return (
     <Modal show={show} onHide={onCancel}>
       <Modal.Header closeButton>

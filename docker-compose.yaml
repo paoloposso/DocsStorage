@@ -6,6 +6,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
-    environment:
-      - NODE_ENV=production
+    env_file: 
+      - ./api/.compose.env
     restart: always
+
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data:/data/db   # Mount a volume to persist MongoDB data
+
+volumes:
+  mongodb_data:

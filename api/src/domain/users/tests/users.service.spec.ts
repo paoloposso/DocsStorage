@@ -3,7 +3,7 @@ import { IUsersService, UsersService } from '../users.service';
 import { IUsersRepository } from '../users.repository';
 import { AuthService, IAuthService } from '../auth.service';
 import { MockUsersRepository } from './mock-users-repository';
-import { User } from '../interfaces/user.interface';
+import { User } from 'src/domain/users/interfaces/user.interface';
 import { JwtModule } from '@nestjs/jwt';
 
 describe('UsersService', () => {

@@ -1,11 +1,11 @@
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { IUsersRepository } from './users.repository';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from './interfaces/user.interface';
 
 export abstract class IAuthService {
-    abstract hashPassword(password: string): Promise<[string, string]>;
+    abstract hashPassword(password: string): Promise<string>;
     abstract authenticateUser(
         { email, plainTextPassword }: { email: string; plainTextPassword: string; }): Promise<string>;
 }
@@ -16,12 +16,10 @@ export class AuthService implements IAuthService
     constructor(private readonly jwtService: JwtService, 
                 private readonly repository: IUsersRepository) {}
 
-    async hashPassword(password: string): Promise<[string, string]> {
-        const salt = await bcrypt.genSalt(10);
-
-        const hashedPassword = await bcrypt.hash(password, salt);
+    async hashPassword(password: string): Promise<string> {
+        const hashedPassword = await bcrypt.hashSync(password, 10);
         
-        return [salt, hashedPassword];
+        return hashedPassword;
     }
 
     private async comparePasswords(password: string, storedPassword: string): Promise<boolean> {

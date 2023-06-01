@@ -4,7 +4,7 @@ import { IUsersRepository } from "src/domain/users/users.repository";
 
 @Injectable()
 export class MockUsersRepository implements IUsersRepository {
-    async create(user: User, hashSalt: string): Promise<string> {
+    async create(user: User): Promise<string> {
         if (user.email === "test@gmail.com") {
             return "1234";
         }

@@ -10,11 +10,10 @@ export class UsersRepository implements IUsersRepository {
     constructor(
         @InjectModel(UserDbSchema.name) private userModel: Model<UserDocument>) {}
 
-    async create(user: User, salt: string): Promise<string> {
+    async create(user: User): Promise<string> {
         const createdUser = new this.userModel({
             email: user.email,
             passwordHash: user.password,
-            passwordSalt: salt,
             role: user.role,
         });
 
