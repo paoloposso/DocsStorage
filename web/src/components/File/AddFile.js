@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import CustomAlert from "../Common/Alert/CustomAlert";
 
-const AddFile = ({ onAddFile }) => {
+const AddFile = ({ onAddFile, onToggleShowAddFile }) => {
     const [operationResult, setOperationResult] = 
         useState({type: '', text: '', show: false});
 
@@ -12,7 +12,6 @@ const AddFile = ({ onAddFile }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         onAddFile({ name: file.name, description: file.description });
-
         setOperationResult({type: 'success', text: 'File added successfully', show: true});
     }
 
@@ -39,7 +38,7 @@ const AddFile = ({ onAddFile }) => {
                 <Form.Group className="mb-3" controlId="buttons">
                     <div className="d-grid gap-2">
                         <Button variant="primary" type="submit" size="lg">Save</Button>
-                        <Button variant="secondary" type="button" size="lg" onClick={() => alert('test')}>Cancel</Button>
+                        <Button variant="secondary" type="button" size="lg" onClick={() => onToggleShowAddFile(false)}>Cancel</Button>
                     </div>
                 </Form.Group>
                 <CustomAlert type={operationResult.type} text={operationResult.text} isShow={operationResult.show} />

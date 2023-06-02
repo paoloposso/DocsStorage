@@ -1,21 +1,20 @@
 import { Alert } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-const CustomAlert = ({text, type, isShow}) => {
-  const [show, setShow] = useState(false);
+const CustomAlert = ({ text, type, isShow }) => {
+  const [show, setShow] = useState(true);
 
-  useEffect(() => {
-    setShow(isShow);
-  }, [isShow]);
+  const handleClose = () => {
+    setShow(false);
+  };
 
-  let variant = type !== '' ? type : 'primary';
+  let variant = type !== "" ? type : "primary";
 
-  return ( 
-    <Alert show={show} key={variant} variant={variant} 
-      onClose={() => setShow(false)} dismissible>
+  return show && isShow ? (
+    <Alert show={show} key={variant} variant={variant} onClose={handleClose} dismissible>
       {text}
     </Alert>
-  )
-}
+  ) : null;
+};
 
 export default CustomAlert
