@@ -18,8 +18,8 @@ func NewAuthService(repo user.UserRepository) *AuthService {
 	return &AuthService{userRepository: repo}
 }
 
-func (service AuthService) Authenticate(credentials AuthCredentials) (string, error) {
-	user, err := service.userRepository.GetUserByEmail(credentials.Email)
+func (service AuthService) Authenticate(email, password string) (string, error) {
+	user, err := service.userRepository.GetUserByEmail(email)
 	if err != nil {
 		return "", err
 	}
@@ -28,7 +28,7 @@ func (service AuthService) Authenticate(credentials AuthCredentials) (string, er
 		return "", nil
 	}
 
-	err = checkPasswordHash(user.Password, credentials.PlainPassword)
+	err = checkPasswordHash(user.Password, password)
 
 	if err != nil {
 		return "", nil

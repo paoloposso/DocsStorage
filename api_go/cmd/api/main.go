@@ -5,7 +5,6 @@ import (
 
 	"github.com/paoloposso/docsapi/pkg/auth"
 	"github.com/paoloposso/docsapi/pkg/database/mongodb"
-	"github.com/paoloposso/docsapi/pkg/user"
 )
 
 func main() {
@@ -16,24 +15,21 @@ func main() {
 	defer mongodb.CloseMongoDBClient(client)
 
 	repo := mongodb.NewUserRepository(client)
-	service := user.NewUserService(repo)
+	// service := user.NewUserService(repo)
 	authService := auth.NewAuthService(repo)
 
-	_, err = service.CreateUser(user.User{
-		Name:     "Paolo",
-		Email:    "pvictorsys@gmail.com",
-		Password: "123321",
-	},
-	)
+	// _, err = service.CreateUser(user.User{
+	// 	Name:     "Paolo",
+	// 	Email:    "pvictorsys@gmail.com",
+	// 	Password: "123321",
+	// },
+	// )
 
-	if err != nil {
-		log.Fatal(err)
-	}
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	user, err := authService.Authenticate(auth.AuthCredentials{
-		Email:         "pvictorsys@gmail.com",
-		PlainPassword: "123321",
-	})
+	user, err := authService.Authenticate("pvictorsys@gmail.com", "123321")
 
 	log.Printf("User: %+v\n", user)
 
