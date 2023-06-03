@@ -1,10 +1,9 @@
 package api
 
 import (
-	"encoding/json"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 	"github.com/paoloposso/docsapi/pkg/auth"
 	"github.com/paoloposso/docsapi/pkg/user"
 )
@@ -25,23 +24,23 @@ type AuthController struct {
 	userService user.UserService
 }
 
-func NewAuthController(authService auth.AuthService) *AuthController {
+func NewAuthController(authService auth.AuthService, userService user.UserService) *AuthController {
 	return &AuthController{
 		authService: authService,
+		userService: userService,
 	}
 }
 
-func (c *AuthController) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/register", c.RegisterUser).Methods(http.MethodPost)
-	router.HandleFunc("/login", c.LoginUser).Methods(http.MethodPost)
+func (c *AuthController) RegisterRoutes(router *gin.Engine) {
+	router.POST("/register", c.RegisterUser)
+	router.POST("/login", c.LoginUser)
 }
 
-func (c *AuthController) RegisterUser(w http.ResponseWriter, r *http.Request) {
+func (c *AuthController) RegisterUser(ctx *gin.Context) {
 	// Parse the registration request from the request body
 	var registrationRequest RegistrationRequest
-	err := json.NewDecoder(r.Body).Decode(&registrationRequest)
-	if err != nil {
-		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+	if err := ctx.ShouldBindJSON(&registrationRequest); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
 	}
 
@@ -52,44 +51,34 @@ func (c *AuthController) RegisterUser(w http.ResponseWriter, r *http.Request) {
 		Password: registrationRequest.Password,
 	}
 
-	// Call the AuthService to register the user
+	// Call the UserService to register the user
 	userID, err := c.userService.CreateUser(user)
 	if err != nil {
-		http.Error(w, "Failed to register user", http.StatusInternalServerError)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user"})
 		return
 	}
 
-	response := struct {
-		UserID string `json:"user_id"`
-	}{
-		UserID: userID,
-	}
-	responseJSON, err := json.Marshal(response)
-	if err != nil {
-		http.Error(w, "Failed to marshal response", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	w.Write(responseJSON)
+	ctx.JSON(http.StatusCreated, gin.H{"user_id": userID})
 }
 
-func (c *AuthController) LoginUser(w http.ResponseWriter, r *http.Request) {
+func (c *AuthController) LoginUser(ctx *gin.Context) {
 	// Parse the login request from the request body
 	var loginRequest LoginRequest
-	err := json.NewDecoder(r.Body).Decode(&loginRequest)
-	if err != nil {
-		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+	if err := ctx.ShouldBindJSON(&loginRequest); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
 	}
 
 	// Call the AuthService to authenticate the user
 	token, err := c.authService.Authenticate(loginRequest.Email, loginRequest.Password)
 	if err != nil {
-		http.Error(w, "Authentication failed", http.StatusUnauthorized)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to authenticate user"})
+		return
+	}
+	if token == "" {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
 		return
 	}
 
-	json.NewEncoder(w).Encode(token)
+	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }

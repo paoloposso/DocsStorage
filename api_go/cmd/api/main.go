@@ -2,38 +2,30 @@ package main
 
 import (
 	"log"
+	"net/http"
 
+	"github.com/gin-gonic/gin"
+	"github.com/paoloposso/docsapi/api"
 	"github.com/paoloposso/docsapi/pkg/auth"
 	"github.com/paoloposso/docsapi/pkg/database/mongodb"
+	"github.com/paoloposso/docsapi/pkg/user"
 )
 
 func main() {
+	router := gin.Default()
+
 	client, err := mongodb.NewMongoDBClient()
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	defer mongodb.CloseMongoDBClient(client)
 
 	repo := mongodb.NewUserRepository(client)
-	// service := user.NewUserService(repo)
-	authService := auth.NewAuthService(repo)
 
-	// _, err = service.CreateUser(user.User{
-	// 	Name:     "Paolo",
-	// 	Email:    "pvictorsys@gmail.com",
-	// 	Password: "123321",
-	// },
-	// )
+	controller := api.NewAuthController(*auth.NewAuthService(repo), *user.NewUserService(repo))
 
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	controller.RegisterRoutes(router)
 
-	user, err := authService.Authenticate("pvictorsys@gmail.com", "123321")
-
-	log.Printf("User: %+v\n", user)
-
-	if err != nil {
-		log.Fatal(err)
-	}
+	log.Fatal(http.ListenAndServe(":3000", router))
 }

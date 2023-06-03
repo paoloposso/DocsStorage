@@ -14,10 +14,12 @@ type AuthService struct {
 	userRepository user.UserRepository
 }
 
+// NewAuthService creates a new AuthService
 func NewAuthService(repo user.UserRepository) *AuthService {
 	return &AuthService{userRepository: repo}
 }
 
+// Authenticate checks if the user exists and if the password is correct
 func (service AuthService) Authenticate(email, password string) (string, error) {
 	user, err := service.userRepository.GetUserByEmail(email)
 	if err != nil {
