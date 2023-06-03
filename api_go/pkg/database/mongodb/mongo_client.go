@@ -10,8 +10,8 @@ import (
 )
 
 // NewMongoDBClient creates a new MongoDB client and returns it.
-func NewMongoDBClient() (*mongo.Client, error) {
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+func NewMongoDBClient(uri string) (*mongo.Client, error) {
+	clientOptions := options.Client().ApplyURI(uri)
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
 		log.Fatal(err)
