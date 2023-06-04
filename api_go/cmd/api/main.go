@@ -9,7 +9,8 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/paoloposso/docsapi/api"
 	"github.com/paoloposso/docsapi/pkg/auth"
-	"github.com/paoloposso/docsapi/pkg/database/mongodb"
+	"github.com/paoloposso/docsapi/pkg/infrastructure/database/mongodb"
+	"github.com/paoloposso/docsapi/pkg/infrastructure/jwttoken"
 	"github.com/paoloposso/docsapi/pkg/user"
 )
 
@@ -38,9 +39,10 @@ func main() {
 
 	defer mongodb.CloseMongoDBClient(client)
 
-	repo := mongodb.NewUserRepository(client)
+	userRepo := mongodb.NewUserRepository(client)
+	tokenService := jwttoken.NewJwtTokenService()
 
-	controller := api.NewAuthController(*auth.NewAuthService(repo), *user.NewUserService(repo))
+	controller := api.NewAuthController(*auth.NewAuthService(userRepo, tokenService), *user.NewUserService(userRepo))
 
 	controller.RegisterRoutes(router)
 

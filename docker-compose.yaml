@@ -1,13 +1,13 @@
 version: '3'
 services:
-  nest-api:
+  go-api:
     build:
-      context: ./api
+      context: ./api_go
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
     env_file: 
-      - ./api/.compose.env
+      - ./api_go/cmd/api/.compose.env
     restart: always
 
   mongo:

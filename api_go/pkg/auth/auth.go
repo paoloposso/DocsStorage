@@ -11,12 +11,16 @@ type AuthCredentials struct {
 }
 
 type AuthService struct {
-	userRepository user.UserRepository
+	userRepository      user.UserRepository
+	tokenizationService TokenizationService
 }
 
 // NewAuthService creates a new AuthService
-func NewAuthService(repo user.UserRepository) *AuthService {
-	return &AuthService{userRepository: repo}
+func NewAuthService(repo user.UserRepository, tokenizationService TokenizationService) *AuthService {
+	return &AuthService{
+		userRepository:      repo,
+		tokenizationService: tokenizationService,
+	}
 }
 
 // Authenticate checks if the user exists and if the password is correct
@@ -41,4 +45,8 @@ func (service AuthService) Authenticate(email, password string) (string, error) 
 
 func checkPasswordHash(hashedPassword string, password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+}
+
+type TokenizationService interface {
+	GenerateToken(user user.User) (string, error)
 }
