@@ -25,7 +25,7 @@ func (c *UserController) RegisterUser(ctx *gin.Context) {
 	// Parse the registration request from the request body
 	var registrationRequest RegistrationRequest
 	if err := ctx.ShouldBindJSON(&registrationRequest); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		ctx.Error(err)
 		return
 	}
 
@@ -40,7 +40,7 @@ func (c *UserController) RegisterUser(ctx *gin.Context) {
 	// Call the UserService to register the user
 	userID, err := c.userService.CreateUser(user)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to register user"})
+		ctx.Error(err)
 		return
 	}
 

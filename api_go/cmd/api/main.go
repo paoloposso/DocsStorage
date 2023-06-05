@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -41,11 +40,11 @@ func main() {
 
 	defer mongodb.CloseMongoDBClient(client)
 
+	router.Use(middleware.HttpErrorHandler())
+
 	registerRoutes(client, router)
 
-	router.Use(middleware.DuplicateKeyErrorMiddleware())
-
-	log.Fatal(http.ListenAndServe(":3000", router))
+	router.Run(":3000")
 }
 
 func registerRoutes(client *mongo.Client, router *gin.Engine) {

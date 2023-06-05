@@ -2,24 +2,28 @@ package middleware
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-// DuplicateKeyErrorMiddleware handles the duplicate key error
-func DuplicateKeyErrorMiddleware() gin.HandlerFunc {
+func HttpErrorHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()
 
 		err := c.Errors.Last()
 		if err != nil {
-			if strings.Contains(err.Error(), "E11000 duplicate key error") {
+			if mongo.IsDuplicateKeyError(err.Err) {
 				c.JSON(http.StatusBadRequest, gin.H{
 					"error": "Duplicate key error",
 				})
-				c.Abort()
+			} else {
+				c.JSON(http.StatusBadRequest, gin.H{
+					"error": err.Error(),
+				})
 			}
+			c.Abort()
+			return
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -27,21 +28,20 @@ func (c *AuthController) RegisterRoutes(router *gin.Engine) {
 }
 
 func (c *AuthController) LoginUser(ctx *gin.Context) {
-	// Parse the login request from the request body
 	var loginRequest LoginRequest
 	if err := ctx.ShouldBindJSON(&loginRequest); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
+		ctx.AbortWithError(http.StatusBadRequest, errors.New("Invalid request payload"))
 		return
 	}
 
-	// Call the AuthService to authenticate the user
 	token, err := c.authService.Authenticate(loginRequest.Email, loginRequest.Password)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to authenticate user"})
 		return
 	}
+
 	if token == "" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email or password"})
+		ctx.AbortWithError(http.StatusUnauthorized, errors.New("Invalid email or password"))
 		return
 	}
 
