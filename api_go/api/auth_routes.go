@@ -30,7 +30,7 @@ func (c *AuthController) RegisterRoutes(router *gin.Engine) {
 func (c *AuthController) LoginUser(ctx *gin.Context) {
 	var loginRequest LoginRequest
 	if err := ctx.ShouldBindJSON(&loginRequest); err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, errors.New("Invalid request payload"))
+		ctx.AbortWithError(http.StatusBadRequest, errors.New("Invalid login payload"))
 		return
 	}
 

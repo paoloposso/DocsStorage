@@ -1,6 +1,7 @@
 package api
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,10 +23,11 @@ func (c *UserController) RegisterRoutes(router *gin.Engine) {
 }
 
 func (c *UserController) RegisterUser(ctx *gin.Context) {
-	// Parse the registration request from the request body
+
 	var registrationRequest RegistrationRequest
+
 	if err := ctx.ShouldBindJSON(&registrationRequest); err != nil {
-		ctx.Error(err)
+		ctx.AbortWithError(http.StatusBadRequest, errors.New("Invalid request payload"))
 		return
 	}
 
