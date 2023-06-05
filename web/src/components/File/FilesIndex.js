@@ -31,6 +31,11 @@ const FilesIndex = () => {
     setFileToDelete(id);
   }
 
+  const editFile = (id) => {  
+    alert(`editing ${id}`);
+    setShowAddFile(true);
+  }
+
   const handleConfirmDelete = () => {
     setTimeout(() => {
       setFiles(files.filter(f => f.id !== fileToDelete));
@@ -52,7 +57,7 @@ const FilesIndex = () => {
       </div>
       {showAddFile && <AddFile onAddFile={addFile} onToggleShowAddFile={setShowAddFile} />}
       <br />
-      <FilesList files={files} onDeleteFile={deleteFile} />
+      <FilesList files={files} onDeleteFile={deleteFile} onEditFile={editFile} />
       <ConfirmationDialog
             title={"Confirm?"}
             show={showDialog}

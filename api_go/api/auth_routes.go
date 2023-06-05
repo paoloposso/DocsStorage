@@ -36,7 +36,7 @@ func (c *AuthController) LoginUser(ctx *gin.Context) {
 
 	token, err := c.authService.Authenticate(loginRequest.Email, loginRequest.Password)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to authenticate user"})
+		ctx.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 
