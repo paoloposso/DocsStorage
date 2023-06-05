@@ -8,10 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/paoloposso/docsapi/api"
+	"github.com/paoloposso/docsapi/api/middleware"
 	"github.com/paoloposso/docsapi/pkg/auth"
 	"github.com/paoloposso/docsapi/pkg/infrastructure/database/mongodb"
 	"github.com/paoloposso/docsapi/pkg/infrastructure/jwttoken"
 	"github.com/paoloposso/docsapi/pkg/user"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func main() {
@@ -39,12 +41,19 @@ func main() {
 
 	defer mongodb.CloseMongoDBClient(client)
 
-	userRepo := mongodb.NewUserRepository(client)
-	tokenService := jwttoken.NewJwtTokenService()
+	registerRoutes(client, router)
 
-	controller := api.NewAuthController(*auth.NewAuthService(userRepo, tokenService), *user.NewUserService(userRepo))
-
-	controller.RegisterRoutes(router)
+	router.Use(middleware.DuplicateKeyErrorMiddleware())
 
 	log.Fatal(http.ListenAndServe(":3000", router))
+}
+
+func registerRoutes(client *mongo.Client, router *gin.Engine) {
+	userRepo := mongodb.NewUserRepository(client)
+
+	authController := api.NewAuthController(*auth.NewAuthService(userRepo, jwttoken.NewJwtTokenService()))
+	userController := api.NewUserController(*user.NewUserService(userRepo))
+
+	authController.RegisterRoutes(router)
+	userController.RegisterRoutes(router)
 }

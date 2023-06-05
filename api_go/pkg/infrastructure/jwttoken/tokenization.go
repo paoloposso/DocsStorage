@@ -15,7 +15,7 @@ func NewJwtTokenService() *JwtTokenService {
 }
 
 func (service JwtTokenService) GenerateToken(user user.User) (string, error) {
-	signingKey := []byte("your-secret-key")
+	signingKey := []byte("seasuiorsfjkosdfsduio")
 
 	// Create the claims with user ID and role
 	claims := jwtgo.MapClaims{

@@ -1,2 +1,4 @@
 .exe
 *.env
+
+cmd/api/api

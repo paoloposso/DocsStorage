@@ -40,7 +40,13 @@ func (service AuthService) Authenticate(email, password string) (string, error) 
 		return "", nil
 	}
 
-	return "token12343", nil
+	token, err := service.tokenizationService.GenerateToken(*user)
+
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
 }
 
 func checkPasswordHash(hashedPassword string, password string) error {
