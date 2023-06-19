@@ -1,8 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import CustomAlert from "../Common/Alert/CustomAlert";
+import { getFileById } from "./FileService";
+import DragDrop from "./DragDrop";
 
-const AddFile = ({ onAddFile, onToggleShowAddFile }) => {
+const AddFile = ({ onAddFile, onToggleShowAddFile, editFileId }) => {
+    useEffect(() => {
+        if (editFileId && editFileId > 0) {
+            const file = getFileById(editFileId);
+            setFile(file);
+        }
+    });
+
     const [operationResult, setOperationResult] = 
         useState({type: '', text: '', show: false});
 
@@ -11,8 +20,13 @@ const AddFile = ({ onAddFile, onToggleShowAddFile }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onAddFile({ name: file.name, description: file.description });
+        onAddFile({ 
+            id: editFileId, 
+            name: file.name, 
+            description: file.description 
+        });
         setOperationResult({type: 'success', text: 'File added successfully', show: true});
+        setFile({ name: '', description: '' });
     }
 
     const handleNameChange = (e) => {
@@ -35,10 +49,16 @@ const AddFile = ({ onAddFile, onToggleShowAddFile }) => {
                     <Form.Label>File Description</Form.Label>
                     <Form.Control type="text" placeholder="Enter file description" value={file.description} onChange={handleDescriptionChange} />
                 </Form.Group>
+                <Form.Group className="mb-3" controlId="fileUpload">
+                    <DragDrop />
+                </Form.Group>
                 <Form.Group className="mb-3" controlId="buttons">
                     <div className="d-grid gap-2">
                         <Button variant="primary" type="submit" size="lg">Save</Button>
-                        <Button variant="secondary" type="button" size="lg" onClick={() => onToggleShowAddFile(false)}>Cancel</Button>
+                        <Button variant="secondary" type="button" size="lg" onClick={() => {
+                            setFile({ name: '', description: '' });
+                            onToggleShowAddFile(false);
+                        }}>Cancel</Button>
                     </div>
                 </Form.Group>
                 <CustomAlert type={operationResult.type} text={operationResult.text} isShow={operationResult.show} />

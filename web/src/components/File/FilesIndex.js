@@ -5,18 +5,17 @@ import AddFile from './AddFile';
 import { Button, Container } from 'react-bootstrap';
 import ConfirmationDialog from '../Common/Dialog/ConfirmationDialog';
 import CustomAlert from '../Common/Alert/CustomAlert';
+import { getAllFiles, getFileById } from './FileService';
 
 const FilesIndex = () => {
-  const [files, setFiles] = useState([
-    { id: 1, name: 'File 1', description: 'Description for File 1' },
-    { id: 2, name: 'File 2', description: 'Description for File 2' },
-    { id: 3, name: 'File 3', description: 'Description for File 3' },
-  ]);
+  const [files, setFiles] = useState(getAllFiles());
 
   const [showDialog, setShowDialog] = useState(false);
-  const [operationResult, setOperationResult] = useState({type: 'danger', text: 'aaa', show: false});
+  const [operationResult, setOperationResult] = useState({type: '', text: '', show: false});
 
   const [showAddFile, setShowAddFile] = useState(false);
+  
+  const [fileToEdit, setFileToEdit] = useState(0);
 
   const addFile = (file) => {
     const id = Math.floor(Math.random() * 100000) + 1;
@@ -32,7 +31,7 @@ const FilesIndex = () => {
   }
 
   const editFile = (id) => {  
-    alert(`editing ${id}`);
+    setFileToEdit(id);
     setShowAddFile(true);
   }
 
@@ -46,8 +45,8 @@ const FilesIndex = () => {
   };
 
   const handleCloseDelete = () => {
-      setOperationResult({type: 'warning', text: 'Canceled', show: true});
-      setShowDialog(false);
+    setOperationResult({type: 'warning', text: 'Canceled', show: true});
+    setShowDialog(false);
   };
 
   return (
@@ -55,7 +54,7 @@ const FilesIndex = () => {
       <div className="d-grid gap-2">
         {!showAddFile && <Button variant='outline-primary' onClick={() => { setShowAddFile(true) }}>Add new file</Button>}
       </div>
-      {showAddFile && <AddFile onAddFile={addFile} onToggleShowAddFile={setShowAddFile} />}
+        {showAddFile && <AddFile onAddFile={addFile} onToggleShowAddFile={setShowAddFile} editFileId={fileToEdit} />}
       <br />
       <FilesList files={files} onDeleteFile={deleteFile} onEditFile={editFile} />
       <ConfirmationDialog
@@ -64,7 +63,7 @@ const FilesIndex = () => {
             message="Are you sure you want to perform this operation?"
             onConfirm={handleConfirmDelete}
             onCancel={handleCloseDelete} />
-      <CustomAlert type={operationResult.type} text={operationResult.text} isShow={operationResult.show} />              
+      <CustomAlert type={operationResult.type} text={operationResult.text} isShow={operationResult.show} />      
     </Container>
   )
 }
