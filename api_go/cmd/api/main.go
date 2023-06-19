@@ -44,7 +44,7 @@ func main() {
 
 	registerRoutes(client, router)
 
-	router.Run(":3000")
+	router.Run(":8080")
 }
 
 func registerRoutes(client *mongo.Client, router *gin.Engine) {

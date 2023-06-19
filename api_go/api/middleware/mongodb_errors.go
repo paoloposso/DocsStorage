@@ -18,7 +18,7 @@ func HttpErrorHandler() gin.HandlerFunc {
 					"error": "Duplicate key error",
 				})
 			} else {
-				c.JSON(http.StatusBadRequest, gin.H{
+				c.JSON(http.StatusInternalServerError, gin.H{
 					"error": err.Error(),
 				})
 			}
