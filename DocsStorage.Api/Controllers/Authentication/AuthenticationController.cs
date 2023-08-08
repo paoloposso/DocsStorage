@@ -13,9 +13,15 @@ public class AuthenticationController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost(Name = "GetAuthentication")]
-    public AuthenticationResponse Get(AuthenticationRequest req)
+    [HttpPost(Name = "PostAuthentication")]
+    public AuthenticationResponse Post(AuthenticationRequest req)
     {
         return new AuthenticationResponse(Guid.NewGuid().ToString());
+    }
+
+    [HttpPost(Name = "GetAuthentication")]
+    public string Get(AuthenticationRequest req)
+    {
+        return "OK";
     }
 }
