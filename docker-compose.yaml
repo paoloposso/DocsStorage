@@ -2,7 +2,7 @@ version: '3'
 services:
   go-api:
     build:
-      context: ./api_go
+      context: ./docs_api
       dockerfile: Dockerfile
     ports:
       - '4200:8080'

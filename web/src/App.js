@@ -9,7 +9,7 @@ import Container from 'react-bootstrap/esm/Container';
 import LoginPage from './components/Login/LoginPage';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
